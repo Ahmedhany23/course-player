@@ -3,7 +3,7 @@ import { ICourse } from "@/types/course";
 export const COURSE_DATA: ICourse = {
   id: "seo-home-business",
   title: "Starting SEO as your Home Based Business",
-  videoUrl: "https://www.youtube.com/watch?v=3Gc7AhihHNc",
+  videoUrl: "/videos/video.mp4",
   poster: "/images/poster.png",
   url: "/courses/seo-home-business",
   progress: 63,
