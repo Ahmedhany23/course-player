@@ -29,7 +29,7 @@ const CourseSection = ({ course }: { course: ICourse }) => {
         className="space-y-10 transition-all duration-500 ease-in-out !h-fit  "
       >
         <div
-          className={`transition-all duration-500 ease-in-out  !sticky inset-0 z-10 bg-black
+          className={`transition-all duration-500 ease-in-out md:!block  !sticky inset-0 z-10 bg-black
             ${wideScreen ? "w-full" : "w-full md:w-[95%]"}
           `}
         >
