@@ -12,7 +12,7 @@ const ReviewForm = () => {
   };
 
   return (
-    <Form form={form} layout="vertical" onFinish={handleSubmit} className="max-w-3xl">
+    <Form form={form} layout="vertical" onFinish={handleSubmit} className="max-w-3xl animate-fadeIn">
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Form.Item

@@ -74,7 +74,7 @@ export const CourseList = ({ topic, setOpenCoursePdf }: Props) => {
   return (
     <Collapse
       bordered={false}
-      className="max-w-[424px] w-full !border !rounded-none !border-gray-300 !bg-white"
+      className="max-w-[424px] w-full !border !rounded-none !border-gray-300 !bg-white animate-fadeIn"
       defaultActiveKey={["1"]}
       expandIconPosition="end"
       expandIcon={({ isActive }) =>

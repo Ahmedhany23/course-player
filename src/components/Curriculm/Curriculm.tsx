@@ -13,7 +13,7 @@ type Props = {
 
 const Curriculm = ({ course, setWideScreen, wideScreen }: Props) => {
   return (
-    <section className="flex flex-wrap items-center gap-4">
+    <section className="flex flex-wrap items-center gap-4 animate-fadeIn">
       <Link
         href={"#review"}
         className="bg-white border border-gray-200 w-10 h-10 rounded-full group hover:!bg-gray-500 transition-all flex items-center justify-center duration-300"

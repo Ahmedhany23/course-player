@@ -1,42 +1,60 @@
 "use client";
+
 import Comments from "@/components/Comments/Comments";
 import CourseMaterials from "@/components/CourseMaterials/CourseMaterials";
 import Curriculm from "@/components/Curriculm/Curriculm";
 import ReviewForm from "@/components/Review/forms/ReviewForm";
+import Topics from "@/components/Topics/Topics";
 
 import { ICourse } from "@/types/course";
-import { Col, Row } from "antd";
-import dynamic from "next/dynamic";
-import { Comme } from "next/font/google";
-import React, { Activity, Suspense, useState } from "react";
+import { Col, Row, Skeleton } from "antd";
+import React, { Suspense, useState, useEffect } from "react";
 
 const VideoPlayer = React.lazy(
   () => import("@/components/VideoPlayer/VideoPlayer")
 );
 
-const Topics = dynamic(() => import("@/components/Topics/Topics"), { ssr: false });
-
 const CourseSection = ({ course }: { course: ICourse }) => {
   const [wideScreen, setWideScreen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const renderCourseExtras = () => (
+    <>
+      <Suspense fallback={<Skeleton active paragraph={{ rows: 3 }} />}>
+        <CourseMaterials course={course} />
+      </Suspense>
+      {!wideScreen && isMobile && <Topics course={course} />}
+      <Suspense fallback={<Skeleton active paragraph={{ rows: 3 }} avatar />}>
+        <Comments course={course} />
+      </Suspense>
+      <ReviewForm />
+    </>
+  );
 
   return (
     <Row
       gutter={[16, 16]}
-      className="px-4 transition-all duration-600 ease-in-out "
+      className="px-4 transition-all duration-600 ease-in-out"
     >
       <Col
         xs={24}
         md={{ order: 1, span: wideScreen ? 24 : 16 }}
-        className="space-y-10 transition-all duration-500 ease-in-out !h-fit  "
+        className="space-y-10 transition-all duration-500 ease-in-out !h-fit"
       >
         <div
-          className={`transition-all duration-500 ease-in-out md:block md:inset-auto sticky inset-0 z-10 bg-black
+          className={`   inset-0 z-10 bg-black transition-all duration-500 ease-in-out
+            ${isMobile ? "sticky" : ""}
             ${wideScreen ? "w-full" : "w-full md:w-[95%]"}
           `}
         >
-          <Suspense fallback={<div>Loading player…</div>}>
+          <Suspense fallback={<Skeleton.Image active />}>
             <VideoPlayer
               src={course.videoUrl}
               poster={course.poster}
@@ -47,30 +65,34 @@ const CourseSection = ({ course }: { course: ICourse }) => {
           </Suspense>
         </div>
 
-        <Curriculm
-          course={course}
-          setWideScreen={setWideScreen}
-          wideScreen={wideScreen}
-        />
+        <Suspense
+          fallback={
+            <div className="flex flex-wrap gap-2">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <Skeleton.Avatar key={i} active size="large" shape="circle" />
+              ))}
+            </div>
+          }
+        >
+          <Curriculm
+            course={course}
+            setWideScreen={setWideScreen}
+            wideScreen={wideScreen}
+          />
+        </Suspense>
+
         {!wideScreen && (
-          <div className={` flex flex-col gap-10`}>
-            <CourseMaterials course={course} />
-            {isMobile && <Topics course={course} />}
-            <Comments course={course} />
-            <ReviewForm />
-          </div>
+          <div className="flex flex-col gap-10">{renderCourseExtras()}</div>
         )}
       </Col>
 
       {wideScreen && (
         <Col
           xs={24}
-          md={{ order: wideScreen ? 2 : 3, span: wideScreen ? 12 : 24 }}
-          className={`transition-all duration-500 ease-in-out !flex flex-col gap-10 `}
+          md={{ order: 2, span: 12 }}
+          className="transition-all duration-500 ease-in-out flex flex-col gap-10"
         >
-          <CourseMaterials course={course} />
-          <Comments course={course} />
-          <ReviewForm />
+          {renderCourseExtras()}
         </Col>
       )}
 
@@ -78,7 +100,7 @@ const CourseSection = ({ course }: { course: ICourse }) => {
         <Col
           xs={24}
           md={{ order: wideScreen ? 3 : 2, span: 8 }}
-          className={`transition-all duration-500 ease-in-out  mx-auto  `}
+          className="transition-all duration-500 ease-in-out mx-auto"
         >
           <Topics course={course} />
         </Col>

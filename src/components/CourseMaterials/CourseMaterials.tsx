@@ -8,7 +8,7 @@ import { RiBookShelfLine } from "react-icons/ri";
 
 const CourseMaterials = ({ course }: { course: ICourse }) => {
   return (
-    <section className="flex flex-col gap-5 w-full max-w-3xl">
+    <section className="flex flex-col gap-5 w-full max-w-3xl animate-fadeIn">
       <h3 className="font-semibold text-3xl font-league-spartan">
         Course Materials
       </h3>

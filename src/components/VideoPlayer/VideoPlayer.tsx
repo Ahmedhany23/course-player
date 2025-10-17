@@ -11,7 +11,7 @@ const VideoPlayer: React.FC<IVideoPlayerProps> = ({
   onEnded,
 }) => {
   return (
-    <div className={`relative w-full   ${className}`}>
+    <div className={`relative w-full animate-fadeIn   ${className}`}>
       <video
         src={src}
         poster={poster}

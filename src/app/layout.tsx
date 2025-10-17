@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@ant-design/v5-patch-for-react-19";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 import "./globals.css";
 import { League_Spartan } from "next/font/google";
 
@@ -20,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={league_spartan.className}>{children}</body>
+      <body className={league_spartan.className}>
+        {" "}
+        <AntdRegistry> {children}</AntdRegistry>
+      </body>
     </html>
   );
 }
